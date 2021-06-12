@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <title>Document</title>
+</head>
+
+<body>
+  <style>
+    body{
+      padding: 10% 0;
+      text-align: left;
+    }
+    h1{
+      font-size: 32px;
+      border: none;
+      font-family:Arial;
+      font-weight: 700;
+      display: block;
+      line-height: 2.5rem;
+    }
+    p{
+      font-size: 0.45rem; 
+      line-height:0; 
+
+      margin-left: 3px;
+    }
+    input {
+      font-size: inherit;
+      border: inherit;
+      font-family:inherit;
+      font-weight: inherit;
+      display: inherit;
+      color: #666;
+    }
+    input:focus{
+      outline: 0;
+    }
+
+    .hide {
+      display: none;
+    }
+  </style>
+  <div>
+    <p>Coolest edit field</p>
+    <h1><span>Some Text</span><input class="hide" type="text" readonly/></h1>
+  </div>
+  
+  <script>
+    let tempText;
+    const h1 = document.querySelector('h1')
+    const text = document.querySelector('h1 span')
+    const input = document.querySelector('input')
+    const button = document.querySelector('button')
+    text.addEventListener('click', startEdit)
+    input.addEventListener('blur', StopEdit)
+    input.addEventListener('keydown', ev => {
+      if(ev.keyCode === 13){
+        input.blur()
+      } else if(ev.keyCode === 27){
+        input.value = tempText;
+        input.blur()
+      }
+    })
+
+    function toggleClass(elem, cssClass){
+      if(elem.classList.contains(cssClass)){
+        elem.classList.remove(cssClass);
+      } else{
+        elem.classList.add(cssClass);
+      }
+    }
+
+
+    function startEdit() {
+      input.removeAttribute('readonly');
+      input.value = text.innerText;
+      tempText = text.innerText;
+      text.innerText = '';
+      toggleClass(input, 'hide');
+      input.focus();
+
+    // text = ev.target.innerText;
+    }
+    function StopEdit(ev) {
+      text.innerText = input.value;
+      input.value = ''
+      input.setAttribute('readonly', '');
+      toggleClass(input, 'hide');
+
+      console.log(input)
+
+    }
+  </script>
+</body>
+
+</html>
